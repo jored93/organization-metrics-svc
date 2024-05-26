@@ -1,26 +1,26 @@
-import { IsNumber, IsDecimal } from 'class-validator';
+import { IsNumber } from 'class-validator';
 import { PartialType, ApiProperty } from '@nestjs/swagger';
 
 export class MetricDTO {
-  @IsDecimal()
+  @IsNumber()
   @ApiProperty()
-  coverage!: string;
+  coverage!: number;
 
   @IsNumber()
   @ApiProperty()
-  bugs!: string;
+  bugs!: number;
 
   @IsNumber()
   @ApiProperty()
-  vulnerabilities!: string;
+  vulnerabilities!: number;
 
   @IsNumber()
   @ApiProperty()
-  hotspot!: string;
+  hotspot!: number;
 
   @IsNumber()
   @ApiProperty()
-  code_smells!: string;
+  code_smells!: number;
 
   @IsNumber()
   @ApiProperty()

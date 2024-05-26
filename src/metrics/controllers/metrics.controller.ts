@@ -31,9 +31,9 @@ export class MetricsController {
   }
 
   @Post()
-  create(@Body() metricDTO: MetricDTO): Promise<any> {
+  create(@Body() payload: MetricDTO): Promise<any> {
     try {
-      return this.metricsService.create(EntityMapper.mapTo(Metric, metricDTO));
+      return this.metricsService.create(payload);
     } catch (error: any) {
       throw new BadRequestException(
         error.detail ?? error.message ?? ErrorsMessages.INTERNAL_SERVER_ERROR,

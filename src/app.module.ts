@@ -6,7 +6,13 @@ import { RepositoriesModule } from './repositories/repositories.module';
 import { MetricsModule } from './metrics/metrics.module';
 
 @Module({
-  imports: [DatabaseModule, OrganizationsModule, TribesModule, RepositoriesModule, MetricsModule],
+  imports: [
+    DatabaseModule,
+    OrganizationsModule,
+    TribesModule,
+    RepositoriesModule,
+    MetricsModule,
+  ],
   controllers: [],
   providers: [],
 })

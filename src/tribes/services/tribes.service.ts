@@ -19,11 +19,19 @@ export class TribesService {
     private tribeRepo: Repository<Tribe>,
   ) {}
 
-  async findAll(): Promise<Tribe[]> {
-    const tribes = this.tribeRepo.find();
+  async findAll(): Promise<Tribe[] | any> {
+    const tribes = this.tribeRepo.find({
+      relations: ['organization'],
+    });
     if (!tribes) {
       this.logger.debug(`No tribes found`);
       throw new NotFoundException(`No tribes found`);
+    }
+
+    if ((await tribes).length === 0) {
+      return {
+        message: 'No tribes found',
+      };
     }
     return tribes;
   }

@@ -4,8 +4,10 @@ import { Metric } from './entities/metric.entity';
 import { MetricsService } from './services/metrics.service';
 import { MetricsController } from './controllers/metrics.controller';
 
+import { RepositoriesModule } from '@src/repositories/repositories.module';
+
 @Module({
-  imports: [TypeOrmModule.forFeature([Metric])],
+  imports: [RepositoriesModule, TypeOrmModule.forFeature([Metric])],
   providers: [MetricsService],
   controllers: [MetricsController],
 })

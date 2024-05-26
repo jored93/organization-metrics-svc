@@ -1,4 +1,10 @@
-import { IsString, IsNumber, MaxLength, MinLength } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  MaxLength,
+  MinLength,
+  IsOptional,
+} from 'class-validator';
 import { PartialType, ApiProperty } from '@nestjs/swagger';
 
 export class TribeDTO {
@@ -9,8 +15,9 @@ export class TribeDTO {
   name!: string;
 
   @IsNumber()
+  @IsOptional()
   @ApiProperty()
-  status!: number;
+  status: number;
 
   @IsNumber()
   @ApiProperty()

@@ -12,7 +12,7 @@ import { Repository } from '@src/repositories/entities/repository.entity';
 @Entity()
 @Unique(['id_metric'])
 export class Metric {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'id_metric' })
   id_metric: number;
 
   @OneToOne(() => Repository, {

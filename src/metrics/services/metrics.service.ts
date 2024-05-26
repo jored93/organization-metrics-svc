@@ -1,24 +1,39 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Metric } from './../entities/metric.entity';
 import { IEditMetricInput } from '../interfaces/metric.interface';
+import { RepositoriesService } from '@src/repositories/services/repositories.service';
+import { MetricDTO } from '../dto/metricDTO';
 
 @Injectable()
 export class MetricsService {
   private readonly logger = new Logger(MetricsService.name);
   constructor(
+    private repositoriesService: RepositoriesService,
     @InjectRepository(Metric)
     private metricRepo: Repository<Metric>,
   ) {}
 
-  async findAll(): Promise<Metric[]> {
-    const repositories = this.metricRepo.find();
-    if (!repositories) {
-      this.logger.debug(`No repositories found`);
-      throw new NotFoundException(`No repositories found`);
+  async findAll(): Promise<Metric[] | any> {
+    const metrics = this.metricRepo.find({
+      relations: ['repository'],
+    });
+    if (!metrics) {
+      this.logger.debug(`No metrics found`);
+      throw new NotFoundException(`No metrics found`);
     }
-    return repositories;
+    if ((await metrics).length === 0) {
+      return {
+        message: 'No metrics found',
+      };
+    }
+    return metrics;
   }
 
   findOne(id: number): Promise<Metric | null> {
@@ -34,8 +49,27 @@ export class MetricsService {
     return entity;
   }
 
-  async create(metric: Metric): Promise<Metric> {
-    return this.metricRepo.save(metric);
+  async create(metricDto: MetricDTO) {
+    try {
+      const repository = await this.repositoriesService.findOne(
+        metricDto.id_repository,
+      );
+      if (!repository) {
+        throw new Error('Repository not found');
+      }
+
+      const metric = new Metric();
+      metric.repository = repository;
+      metric.coverage = metricDto.coverage;
+      metric.bugs = metricDto.bugs;
+      metric.vulnerabilities = metricDto.vulnerabilities;
+      metric.hotspot = metricDto.hotspot;
+      metric.code_smells = metricDto.code_smells;
+
+      return this.metricRepo.save(metric);
+    } catch (error: any) {
+      throw new BadRequestException(`${error.message}`);
+    }
   }
 
   async update(input: IEditMetricInput): Promise<Metric> {
@@ -45,7 +79,7 @@ export class MetricsService {
     });
 
     if (!existingMetric) {
-      throw new NotFoundException(`Repository with id ${id} not found`);
+      throw new NotFoundException(`Metric with id ${id} not found`);
     }
 
     await this.metricRepo.update(id, metric);

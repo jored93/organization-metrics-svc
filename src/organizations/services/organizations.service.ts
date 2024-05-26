@@ -17,15 +17,21 @@ export class OrganizationsService {
     private organizationRepo: Repository<Organization>,
   ) {}
 
-  async findAll(): Promise<Organization[]> {
-    const repositories = this.organizationRepo.find({
+  async findAll(): Promise<Organization[] | any> {
+    const org = this.organizationRepo.find({
       where: { status: 1 },
     });
-    if (!repositories) {
+    if (!org) {
       this.logger.debug(`No repositories found`);
       throw new NotFoundException(`No repositories found`);
     }
-    return repositories;
+
+    if ((await org).length === 0) {
+      return {
+        message: 'No repositories found',
+      };
+    }
+    return org;
   }
 
   findOne(id: number): Promise<Organization | null> {
@@ -54,7 +60,7 @@ export class OrganizationsService {
 
   async create(organization: Organization) {
     const organizationExist = await this.organizationRepo.findOne({
-      where: { name: organization.name, status: 1 },
+      where: { name: organization.name },
     });
     if (organizationExist) {
       this.logger.debug(`Organization: ${organization.name} exists already`);

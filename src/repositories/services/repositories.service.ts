@@ -16,11 +16,19 @@ export class RepositoriesService {
     @InjectRepository(RepositoryEntity)
     private repositoryRepo: Repository<RepositoryEntity>,
   ) {}
-  async findAll(): Promise<RepositoryEntity[]> {
-    const repositories = this.repositoryRepo.find();
+  async findAll(): Promise<RepositoryEntity[] | any> {
+    const repositories = this.repositoryRepo.find({
+      relations: ['tribe'],
+    });
     if (!repositories) {
       this.logger.debug(`No repositories found`);
       throw new NotFoundException(`No repositories found`);
+    }
+
+    if ((await repositories).length === 0) {
+      return {
+        message: 'No repositories found',
+      };
     }
     return repositories;
   }
