@@ -5,15 +5,15 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Base } from './base.entity';
+import { Base } from '@common/base.entity';
 import { Organization } from '@src/organizations/entities/organization.entity';
 
 @Entity()
 export class Tribe extends Base {
-  @PrimaryGeneratedColumn({ name: 'id_organization' })
+  @PrimaryGeneratedColumn({ name: 'id_tribe' })
   id_tribe: number;
 
-  @Column({ name: 'status', nullable: false, unique: true })
+  @Column({ name: 'status', nullable: false })
   status: number;
 
   @ManyToOne((_type) => Organization, { nullable: false })
@@ -23,6 +23,6 @@ export class Tribe extends Base {
   })
   organization?: Organization;
 
-  @Column({ name: 'organization_id' })
+  @Column({ name: 'id_organization' })
   id_organization!: number;
 }

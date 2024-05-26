@@ -21,6 +21,7 @@
       "@config": ["src/config/index"],
       "@utils/*": ["src/utils/*"],
       "@src/*": ["src/*"],
+      "@common/*": ["src/common/*"],
     }
   }
 }
