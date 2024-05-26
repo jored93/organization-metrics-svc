@@ -15,8 +15,8 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Market manage service')
-    .setDescription('Organization metrics service')
+    .setTitle('Organization metrics')
+    .setDescription('Organization metrics services')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
