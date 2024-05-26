@@ -4,11 +4,13 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  Unique,
 } from 'typeorm';
 import { Base } from '@common/base.entity';
 import { Organization } from '@src/organizations/entities/organization.entity';
 
 @Entity()
+@Unique(['id_tribe'])
 export class Tribe extends Base {
   @PrimaryGeneratedColumn({ name: 'id_tribe' })
   id_tribe: number;
@@ -16,7 +18,11 @@ export class Tribe extends Base {
   @Column({ name: 'status', nullable: false })
   status: number;
 
-  @ManyToOne((_type) => Organization, { nullable: false })
+  @ManyToOne(() => Organization, {
+    nullable: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({
     name: 'id_organization',
     referencedColumnName: 'id_organization',

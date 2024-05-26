@@ -5,11 +5,13 @@ import {
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
+  Unique,
 } from 'typeorm';
 import { Base } from '@common/base.entity';
 import { Tribe } from '@src/tribes/entities/tribe.entity';
 
 @Entity()
+@Unique(['id_repository'])
 export class Repository extends Base {
   @PrimaryGeneratedColumn({ name: 'id_repository' })
   id_repository: number;
@@ -17,7 +19,11 @@ export class Repository extends Base {
   @Column({ name: 'state', nullable: false, length: 1 })
   state!: string;
 
-  @ManyToOne((_type) => Tribe, { nullable: false })
+  @ManyToOne(() => Tribe, {
+    nullable: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({
     name: 'id_tribe',
     referencedColumnName: 'id_tribe',

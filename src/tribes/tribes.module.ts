@@ -4,8 +4,10 @@ import { Tribe } from './entities/tribe.entity';
 import { TribesService } from './services/tribes.service';
 import { TribesController } from './controllers/tribes.controller';
 
+import { OrganizationsModule } from '@src/organizations/organizations.module';
+
 @Module({
-  imports: [TypeOrmModule.forFeature([Tribe])],
+  imports: [OrganizationsModule, TypeOrmModule.forFeature([Tribe])],
   providers: [TribesService],
   controllers: [TribesController],
 })
