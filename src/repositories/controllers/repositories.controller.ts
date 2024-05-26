@@ -9,6 +9,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { RepositoriesService } from './../services/repositories.service';
+import { MetricsService } from './../services/metrics.service';
 import { ApiTags } from '@nestjs/swagger';
 import { RepositoryDTO, RepositoryUpdateDTO } from '../dto/repositoryDTO';
 import { EntityMapper } from '@utils/mapper/entityMapper.service';
@@ -18,7 +19,10 @@ import { ErrorsMessages } from '@utils/constants/errorMessages';
 @ApiTags('Repositories')
 @Controller('api/repositories')
 export class RepositoriesController {
-  constructor(private repositoriesService: RepositoriesService) {}
+  constructor(
+    private repositoriesService: RepositoriesService,
+    private metricsService: MetricsService,
+  ) {}
 
   @Get()
   findAll() {
@@ -58,5 +62,13 @@ export class RepositoriesController {
   @Delete(':id')
   delete(@Param('id') id: number): Promise<any> {
     return this.repositoriesService.remove(id);
+  }
+
+  @Get('tribe/:id')
+  async findMetricsRepositoriesByTribe(@Param('id') id: number) {
+    const responseMetricsRepositoriesByTribe =
+      await this.metricsService.findRepositoriesByTribe(id);
+
+    return responseMetricsRepositoriesByTribe;
   }
 }
