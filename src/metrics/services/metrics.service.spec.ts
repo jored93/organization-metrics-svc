@@ -4,9 +4,19 @@ import { MetricsService } from './metrics.service';
 describe('MetricsService', () => {
   let service: MetricsService;
 
+  const mockMetricsService = {
+    findAll: jest.fn(),
+    findOne: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [MetricsService],
+      providers: [
+        {
+          provide: MetricsService,
+          useValue: mockMetricsService,
+        },
+      ],
     }).compile();
 
     service = module.get<MetricsService>(MetricsService);
