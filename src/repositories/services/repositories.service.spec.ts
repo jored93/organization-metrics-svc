@@ -7,6 +7,10 @@ describe('RepositoriesService', () => {
   const mockRepositoriesService = {
     findAll: jest.fn(),
     findOne: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    remove: jest.fn(),
+    findRepositoriesByTribe: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -24,5 +28,20 @@ describe('RepositoriesService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('should call findAll', () => {
+    service.findAll();
+    expect(mockRepositoriesService.findAll).toHaveBeenCalled();
+  });
+
+  it('should call findOne', () => {
+    service.findOne(1);
+    expect(mockRepositoriesService.findOne).toHaveBeenCalled();
+  });
+
+  it('should call remove', () => {
+    service.remove(1);
+    expect(mockRepositoriesService.remove).toHaveBeenCalled();
   });
 });

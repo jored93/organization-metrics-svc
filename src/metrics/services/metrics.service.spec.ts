@@ -7,6 +7,9 @@ describe('MetricsService', () => {
   const mockMetricsService = {
     findAll: jest.fn(),
     findOne: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    remove: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -24,5 +27,19 @@ describe('MetricsService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+  it('should call findAll', () => {
+    service.findAll();
+    expect(mockMetricsService.findAll).toHaveBeenCalled();
+  });
+
+  it('should call findOne', () => {
+    service.findOne(1);
+    expect(mockMetricsService.findOne).toHaveBeenCalled();
+  });
+
+  it('should call remove', () => {
+    service.remove(1);
+    expect(mockMetricsService.remove).toHaveBeenCalled();
   });
 });
