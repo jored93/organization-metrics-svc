@@ -7,15 +7,17 @@ import {
   Unique,
   OneToMany,
 } from 'typeorm';
-import { Base } from '@common/base.entity';
-import { Organization } from '@src/organizations/entities/organization.entity';
-import { Repository } from '@src/repositories/entities/repository.entity';
+import { Organization } from '../../organizations/entities/organization.entity';
+import { Repository } from '../../repositories/entities/repository.entity';
 
 @Entity()
 @Unique(['id_tribe'])
-export class Tribe extends Base {
+export class Tribe {
   @PrimaryGeneratedColumn({ name: 'id_tribe' })
   id_tribe: number;
+
+  @Column({ name: 'name', nullable: false, length: 50 })
+  name: string;
 
   @Column({ name: 'status', nullable: false, default: 1 })
   status: number;

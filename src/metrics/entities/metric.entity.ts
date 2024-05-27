@@ -7,7 +7,7 @@ import {
   Unique,
 } from 'typeorm';
 import { Max } from 'class-validator';
-import { Repository } from '@src/repositories/entities/repository.entity';
+import { Repository } from '../../repositories/entities/repository.entity';
 
 @Entity()
 @Unique(['id_metric'])

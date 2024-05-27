@@ -7,14 +7,16 @@ import {
   CreateDateColumn,
   Unique,
 } from 'typeorm';
-import { Base } from '@common/base.entity';
-import { Tribe } from '@src/tribes/entities/tribe.entity';
+import { Tribe } from '../..//tribes/entities/tribe.entity';
 
 @Entity()
 @Unique(['id_repository'])
-export class Repository extends Base {
+export class Repository {
   @PrimaryGeneratedColumn({ name: 'id_repository' })
   id_repository: number;
+
+  @Column({ name: 'name', nullable: false, length: 50 })
+  name: string;
 
   @Column({ name: 'state', nullable: false, length: 1 })
   state!: string;

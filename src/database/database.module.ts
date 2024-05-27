@@ -18,7 +18,7 @@ import {
       password: TYPEORM_PASSWORD,
       database: TYPEORM_DATABASE,
       entities: [],
-      synchronize: true,
+      synchronize: false,
       ssl: true as boolean,
       autoLoadEntities: true,
     }),

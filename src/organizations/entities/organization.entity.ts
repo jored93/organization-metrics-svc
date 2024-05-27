@@ -5,14 +5,16 @@ import {
   Unique,
   OneToMany,
 } from 'typeorm';
-import { Base } from '@common/base.entity';
-import { Tribe } from '@src/tribes/entities/tribe.entity';
+import { Tribe } from '../../tribes/entities/tribe.entity';
 
 @Entity()
 @Unique(['id_organization'])
-export class Organization extends Base {
+export class Organization {
   @PrimaryGeneratedColumn({ name: 'id_organization' })
   id_organization: number;
+
+  @Column({ name: 'name', nullable: false, length: 50 })
+  name: string;
 
   @OneToMany(() => Tribe, (tribe) => tribe.organization, {
     onDelete: 'CASCADE',
